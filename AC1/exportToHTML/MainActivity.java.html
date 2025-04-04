@@ -1,0 +1,168 @@
+<html>
+<head>
+<title>MainActivity.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #2aacb8;}
+.s4 { color: #7a7e85;}
+.s5 { color: #6aab73;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+MainActivity.java</font>
+</center></td></tr></table>
+<pre><span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">os</span><span class="s2">.</span><span class="s1">Bundle</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">view</span><span class="s2">.</span><span class="s1">View</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">widget</span><span class="s2">.*;</span>
+<span class="s0">import </span><span class="s1">androidx</span><span class="s2">.</span><span class="s1">appcompat</span><span class="s2">.</span><span class="s1">app</span><span class="s2">.</span><span class="s1">AppCompatActivity</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">androidx</span><span class="s2">.</span><span class="s1">recyclerview</span><span class="s2">.</span><span class="s1">widget</span><span class="s2">.</span><span class="s1">LinearLayoutManager</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">androidx</span><span class="s2">.</span><span class="s1">recyclerview</span><span class="s2">.</span><span class="s1">widget</span><span class="s2">.</span><span class="s1">RecyclerView</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">example</span><span class="s2">.</span><span class="s1">ac1</span><span class="s2">.</span><span class="s1">R</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">ArrayList</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">Collections</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">Comparator</span><span class="s2">;</span>
+
+<span class="s0">public class </span><span class="s1">MainActivity </span><span class="s0">extends </span><span class="s1">AppCompatActivity </span><span class="s2">{</span>
+    <span class="s1">EditText etTitulo</span><span class="s2">, </span><span class="s1">etDiretor</span><span class="s2">, </span><span class="s1">etAno</span><span class="s2">;</span>
+    <span class="s1">Spinner spGenero</span><span class="s2">, </span><span class="s1">spFiltroGenero</span><span class="s2">;</span>
+    <span class="s1">RatingBar rbNota</span><span class="s2">;</span>
+    <span class="s1">CheckBox cbCinema</span><span class="s2">, </span><span class="s1">cbFiltroCinema</span><span class="s2">;</span>
+    <span class="s1">Button btnSalvar</span><span class="s2">, </span><span class="s1">btnOrdenarAno</span><span class="s2">, </span><span class="s1">btnOrdenarNota</span><span class="s2">;</span>
+    <span class="s1">RecyclerView rvFilmes</span><span class="s2">;</span>
+
+    <span class="s1">ArrayList</span><span class="s2">&lt;</span><span class="s1">Filme</span><span class="s2">&gt; </span><span class="s1">listaFilmes </span><span class="s2">= </span><span class="s0">new </span><span class="s1">ArrayList</span><span class="s2">&lt;&gt;();</span>
+    <span class="s1">FilmeAdapter adapter</span><span class="s2">;</span>
+    <span class="s0">int </span><span class="s1">editIndex </span><span class="s2">= -</span><span class="s3">1</span><span class="s2">; </span><span class="s4">// para saber se é edição</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">protected void </span><span class="s1">onCreate</span><span class="s2">(</span><span class="s1">Bundle savedInstanceState</span><span class="s2">) {</span>
+        <span class="s0">super</span><span class="s2">.</span><span class="s1">onCreate</span><span class="s2">(</span><span class="s1">savedInstanceState</span><span class="s2">);</span>
+        <span class="s1">setContentView</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">layout</span><span class="s2">.</span><span class="s1">activity_main</span><span class="s2">);</span>
+
+        <span class="s1">etTitulo </span><span class="s2">= </span><span class="s1">findViewById</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">id</span><span class="s2">.</span><span class="s1">etTitulo</span><span class="s2">);</span>
+        <span class="s1">etDiretor </span><span class="s2">= </span><span class="s1">findViewById</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">id</span><span class="s2">.</span><span class="s1">etDiretor</span><span class="s2">);</span>
+        <span class="s1">etAno </span><span class="s2">= </span><span class="s1">findViewById</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">id</span><span class="s2">.</span><span class="s1">etAno</span><span class="s2">);</span>
+        <span class="s1">spGenero </span><span class="s2">= </span><span class="s1">findViewById</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">id</span><span class="s2">.</span><span class="s1">spGenero</span><span class="s2">);</span>
+        <span class="s1">spFiltroGenero </span><span class="s2">= </span><span class="s1">findViewById</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">id</span><span class="s2">.</span><span class="s1">spFiltroGenero</span><span class="s2">);</span>
+        <span class="s1">rbNota </span><span class="s2">= </span><span class="s1">findViewById</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">id</span><span class="s2">.</span><span class="s1">rbNota</span><span class="s2">);</span>
+        <span class="s1">cbCinema </span><span class="s2">= </span><span class="s1">findViewById</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">id</span><span class="s2">.</span><span class="s1">cbCinema</span><span class="s2">);</span>
+        <span class="s1">cbFiltroCinema </span><span class="s2">= </span><span class="s1">findViewById</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">id</span><span class="s2">.</span><span class="s1">cbFiltroCinema</span><span class="s2">);</span>
+        <span class="s1">btnSalvar </span><span class="s2">= </span><span class="s1">findViewById</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">id</span><span class="s2">.</span><span class="s1">btnSalvar</span><span class="s2">);</span>
+        <span class="s1">btnOrdenarAno </span><span class="s2">= </span><span class="s1">findViewById</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">id</span><span class="s2">.</span><span class="s1">btnOrdenarAno</span><span class="s2">);</span>
+        <span class="s1">btnOrdenarNota </span><span class="s2">= </span><span class="s1">findViewById</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">id</span><span class="s2">.</span><span class="s1">btnOrdenarNota</span><span class="s2">);</span>
+        <span class="s1">rvFilmes </span><span class="s2">= </span><span class="s1">findViewById</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">id</span><span class="s2">.</span><span class="s1">rvFilmes</span><span class="s2">);</span>
+
+        <span class="s1">String</span><span class="s2">[] </span><span class="s1">generos </span><span class="s2">= {</span><span class="s5">&quot;Todos&quot;</span><span class="s2">, </span><span class="s5">&quot;Ação&quot;</span><span class="s2">, </span><span class="s5">&quot;Drama&quot;</span><span class="s2">, </span><span class="s5">&quot;Comédia&quot;</span><span class="s2">, </span><span class="s5">&quot;Ficção&quot;</span><span class="s2">, </span><span class="s5">&quot;Terror&quot;</span><span class="s2">};</span>
+        <span class="s1">ArrayAdapter</span><span class="s2">&lt;</span><span class="s1">String</span><span class="s2">&gt; </span><span class="s1">adapterGenero </span><span class="s2">= </span><span class="s0">new </span><span class="s1">ArrayAdapter</span><span class="s2">&lt;&gt;(</span><span class="s0">this</span><span class="s2">, </span><span class="s1">android</span><span class="s2">.</span><span class="s1">R</span><span class="s2">.</span><span class="s1">layout</span><span class="s2">.</span><span class="s1">simple_spinner_dropdown_item</span><span class="s2">, </span><span class="s1">generos</span><span class="s2">);</span>
+        <span class="s1">spGenero</span><span class="s2">.</span><span class="s1">setAdapter</span><span class="s2">(</span><span class="s0">new </span><span class="s1">ArrayAdapter</span><span class="s2">&lt;&gt;(</span><span class="s0">this</span><span class="s2">, </span><span class="s1">android</span><span class="s2">.</span><span class="s1">R</span><span class="s2">.</span><span class="s1">layout</span><span class="s2">.</span><span class="s1">simple_spinner_dropdown_item</span><span class="s2">, </span><span class="s0">new </span><span class="s1">String</span><span class="s2">[]{</span><span class="s5">&quot;Ação&quot;</span><span class="s2">, </span><span class="s5">&quot;Drama&quot;</span><span class="s2">, </span><span class="s5">&quot;Comédia&quot;</span><span class="s2">, </span><span class="s5">&quot;Ficção&quot;</span><span class="s2">, </span><span class="s5">&quot;Terror&quot;</span><span class="s2">}));</span>
+        <span class="s1">spFiltroGenero</span><span class="s2">.</span><span class="s1">setAdapter</span><span class="s2">(</span><span class="s1">adapterGenero</span><span class="s2">);</span>
+
+        <span class="s1">adapter </span><span class="s2">= </span><span class="s0">new </span><span class="s1">FilmeAdapter</span><span class="s2">(</span><span class="s1">listaFilmes</span><span class="s2">, </span><span class="s0">this</span><span class="s1">::carregarParaEdicao</span><span class="s2">, </span><span class="s0">this</span><span class="s1">::removerFilme</span><span class="s2">);</span>
+        <span class="s1">rvFilmes</span><span class="s2">.</span><span class="s1">setLayoutManager</span><span class="s2">(</span><span class="s0">new </span><span class="s1">LinearLayoutManager</span><span class="s2">(</span><span class="s0">this</span><span class="s2">));</span>
+        <span class="s1">rvFilmes</span><span class="s2">.</span><span class="s1">setAdapter</span><span class="s2">(</span><span class="s1">adapter</span><span class="s2">);</span>
+
+        <span class="s1">btnSalvar</span><span class="s2">.</span><span class="s1">setOnClickListener</span><span class="s2">(</span><span class="s1">v -&gt; salvarFilme</span><span class="s2">());</span>
+        <span class="s1">spFiltroGenero</span><span class="s2">.</span><span class="s1">setOnItemSelectedListener</span><span class="s2">(</span><span class="s0">new </span><span class="s1">AdapterView</span><span class="s2">.</span><span class="s1">OnItemSelectedListener</span><span class="s2">() {</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onItemSelected</span><span class="s2">(</span><span class="s1">AdapterView</span><span class="s2">&lt;?&gt; </span><span class="s1">parent</span><span class="s2">, </span><span class="s1">View view</span><span class="s2">, </span><span class="s0">int </span><span class="s1">position</span><span class="s2">, </span><span class="s0">long </span><span class="s1">id</span><span class="s2">) {</span>
+                <span class="s1">aplicarFiltros</span><span class="s2">();</span>
+            <span class="s2">}</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public void </span><span class="s1">onNothingSelected</span><span class="s2">(</span><span class="s1">AdapterView</span><span class="s2">&lt;?&gt; </span><span class="s1">parent</span><span class="s2">) {}</span>
+        <span class="s2">});</span>
+
+        <span class="s1">cbFiltroCinema</span><span class="s2">.</span><span class="s1">setOnCheckedChangeListener</span><span class="s2">((</span><span class="s1">buttonView</span><span class="s2">, </span><span class="s1">isChecked</span><span class="s2">) </span><span class="s1">-&gt; aplicarFiltros</span><span class="s2">());</span>
+
+        <span class="s1">btnOrdenarAno</span><span class="s2">.</span><span class="s1">setOnClickListener</span><span class="s2">(</span><span class="s1">v -&gt; </span><span class="s2">{</span>
+            <span class="s1">Collections</span><span class="s2">.</span><span class="s1">sort</span><span class="s2">(</span><span class="s1">listaFilmes</span><span class="s2">, </span><span class="s1">Comparator</span><span class="s2">.</span><span class="s1">comparingInt</span><span class="s2">(</span><span class="s1">Filme::getAno</span><span class="s2">));</span>
+            <span class="s1">adapter</span><span class="s2">.</span><span class="s1">notifyDataSetChanged</span><span class="s2">();</span>
+        <span class="s2">});</span>
+
+        <span class="s1">btnOrdenarNota</span><span class="s2">.</span><span class="s1">setOnClickListener</span><span class="s2">(</span><span class="s1">v -&gt; </span><span class="s2">{</span>
+            <span class="s1">Collections</span><span class="s2">.</span><span class="s1">sort</span><span class="s2">(</span><span class="s1">listaFilmes</span><span class="s2">, (</span><span class="s1">f1</span><span class="s2">, </span><span class="s1">f2</span><span class="s2">) </span><span class="s1">-&gt; Float</span><span class="s2">.</span><span class="s1">compare</span><span class="s2">(</span><span class="s1">f2</span><span class="s2">.</span><span class="s1">getNota</span><span class="s2">(), </span><span class="s1">f1</span><span class="s2">.</span><span class="s1">getNota</span><span class="s2">()));</span>
+            <span class="s1">adapter</span><span class="s2">.</span><span class="s1">notifyDataSetChanged</span><span class="s2">();</span>
+        <span class="s2">});</span>
+    <span class="s2">}</span>
+
+    <span class="s0">void </span><span class="s1">salvarFilme</span><span class="s2">() {</span>
+        <span class="s1">String titulo </span><span class="s2">= </span><span class="s1">etTitulo</span><span class="s2">.</span><span class="s1">getText</span><span class="s2">().</span><span class="s1">toString</span><span class="s2">();</span>
+        <span class="s1">String diretor </span><span class="s2">= </span><span class="s1">etDiretor</span><span class="s2">.</span><span class="s1">getText</span><span class="s2">().</span><span class="s1">toString</span><span class="s2">();</span>
+        <span class="s0">int </span><span class="s1">ano </span><span class="s2">= </span><span class="s1">Integer</span><span class="s2">.</span><span class="s1">parseInt</span><span class="s2">(</span><span class="s1">etAno</span><span class="s2">.</span><span class="s1">getText</span><span class="s2">().</span><span class="s1">toString</span><span class="s2">());</span>
+        <span class="s1">String genero </span><span class="s2">= </span><span class="s1">spGenero</span><span class="s2">.</span><span class="s1">getSelectedItem</span><span class="s2">().</span><span class="s1">toString</span><span class="s2">();</span>
+        <span class="s0">float </span><span class="s1">nota </span><span class="s2">= </span><span class="s1">rbNota</span><span class="s2">.</span><span class="s1">getRating</span><span class="s2">();</span>
+        <span class="s0">boolean </span><span class="s1">viuNoCinema </span><span class="s2">= </span><span class="s1">cbCinema</span><span class="s2">.</span><span class="s1">isChecked</span><span class="s2">();</span>
+
+        <span class="s1">Filme novo </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Filme</span><span class="s2">(</span><span class="s1">titulo</span><span class="s2">, </span><span class="s1">diretor</span><span class="s2">, </span><span class="s1">ano</span><span class="s2">, </span><span class="s1">genero</span><span class="s2">, </span><span class="s1">nota</span><span class="s2">, </span><span class="s1">viuNoCinema</span><span class="s2">);</span>
+
+        <span class="s0">if </span><span class="s2">(</span><span class="s1">editIndex </span><span class="s2">== -</span><span class="s3">1</span><span class="s2">) {</span>
+            <span class="s1">listaFilmes</span><span class="s2">.</span><span class="s1">add</span><span class="s2">(</span><span class="s1">novo</span><span class="s2">);</span>
+        <span class="s2">} </span><span class="s0">else </span><span class="s2">{</span>
+            <span class="s1">listaFilmes</span><span class="s2">.</span><span class="s1">set</span><span class="s2">(</span><span class="s1">editIndex</span><span class="s2">, </span><span class="s1">novo</span><span class="s2">);</span>
+            <span class="s1">editIndex </span><span class="s2">= -</span><span class="s3">1</span><span class="s2">;</span>
+        <span class="s2">}</span>
+
+        <span class="s1">adapter</span><span class="s2">.</span><span class="s1">notifyDataSetChanged</span><span class="s2">();</span>
+        <span class="s1">limparCampos</span><span class="s2">();</span>
+    <span class="s2">}</span>
+
+    <span class="s0">void </span><span class="s1">carregarParaEdicao</span><span class="s2">(</span><span class="s0">int </span><span class="s1">position</span><span class="s2">) {</span>
+        <span class="s1">Filme f </span><span class="s2">= </span><span class="s1">listaFilmes</span><span class="s2">.</span><span class="s1">get</span><span class="s2">(</span><span class="s1">position</span><span class="s2">);</span>
+        <span class="s1">etTitulo</span><span class="s2">.</span><span class="s1">setText</span><span class="s2">(</span><span class="s1">f</span><span class="s2">.</span><span class="s1">getTitulo</span><span class="s2">());</span>
+        <span class="s1">etDiretor</span><span class="s2">.</span><span class="s1">setText</span><span class="s2">(</span><span class="s1">f</span><span class="s2">.</span><span class="s1">getDiretor</span><span class="s2">());</span>
+        <span class="s1">etAno</span><span class="s2">.</span><span class="s1">setText</span><span class="s2">(</span><span class="s1">String</span><span class="s2">.</span><span class="s1">valueOf</span><span class="s2">(</span><span class="s1">f</span><span class="s2">.</span><span class="s1">getAno</span><span class="s2">()));</span>
+        <span class="s1">rbNota</span><span class="s2">.</span><span class="s1">setRating</span><span class="s2">(</span><span class="s1">f</span><span class="s2">.</span><span class="s1">getNota</span><span class="s2">());</span>
+        <span class="s1">cbCinema</span><span class="s2">.</span><span class="s1">setChecked</span><span class="s2">(</span><span class="s1">f</span><span class="s2">.</span><span class="s1">isViuNoCinema</span><span class="s2">());</span>
+
+        <span class="s0">for </span><span class="s2">(</span><span class="s0">int </span><span class="s1">i </span><span class="s2">= </span><span class="s3">0</span><span class="s2">; </span><span class="s1">i </span><span class="s2">&lt; </span><span class="s1">spGenero</span><span class="s2">.</span><span class="s1">getCount</span><span class="s2">(); </span><span class="s1">i</span><span class="s2">++) {</span>
+            <span class="s0">if </span><span class="s2">(</span><span class="s1">spGenero</span><span class="s2">.</span><span class="s1">getItemAtPosition</span><span class="s2">(</span><span class="s1">i</span><span class="s2">).</span><span class="s1">equals</span><span class="s2">(</span><span class="s1">f</span><span class="s2">.</span><span class="s1">getGenero</span><span class="s2">())) {</span>
+                <span class="s1">spGenero</span><span class="s2">.</span><span class="s1">setSelection</span><span class="s2">(</span><span class="s1">i</span><span class="s2">);</span>
+                <span class="s0">break</span><span class="s2">;</span>
+            <span class="s2">}</span>
+        <span class="s2">}</span>
+
+        <span class="s1">editIndex </span><span class="s2">= </span><span class="s1">position</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">void </span><span class="s1">removerFilme</span><span class="s2">(</span><span class="s0">int </span><span class="s1">position</span><span class="s2">) {</span>
+        <span class="s1">listaFilmes</span><span class="s2">.</span><span class="s1">remove</span><span class="s2">(</span><span class="s1">position</span><span class="s2">);</span>
+        <span class="s1">adapter</span><span class="s2">.</span><span class="s1">notifyDataSetChanged</span><span class="s2">();</span>
+    <span class="s2">}</span>
+
+    <span class="s0">void </span><span class="s1">limparCampos</span><span class="s2">() {</span>
+        <span class="s1">etTitulo</span><span class="s2">.</span><span class="s1">setText</span><span class="s2">(</span><span class="s5">&quot;&quot;</span><span class="s2">);</span>
+        <span class="s1">etDiretor</span><span class="s2">.</span><span class="s1">setText</span><span class="s2">(</span><span class="s5">&quot;&quot;</span><span class="s2">);</span>
+        <span class="s1">etAno</span><span class="s2">.</span><span class="s1">setText</span><span class="s2">(</span><span class="s5">&quot;&quot;</span><span class="s2">);</span>
+        <span class="s1">rbNota</span><span class="s2">.</span><span class="s1">setRating</span><span class="s2">(</span><span class="s3">0</span><span class="s2">);</span>
+        <span class="s1">cbCinema</span><span class="s2">.</span><span class="s1">setChecked</span><span class="s2">(</span><span class="s0">false</span><span class="s2">);</span>
+        <span class="s1">spGenero</span><span class="s2">.</span><span class="s1">setSelection</span><span class="s2">(</span><span class="s3">0</span><span class="s2">);</span>
+    <span class="s2">}</span>
+
+    <span class="s0">void </span><span class="s1">aplicarFiltros</span><span class="s2">() {</span>
+        <span class="s1">String generoSelecionado </span><span class="s2">= </span><span class="s1">spFiltroGenero</span><span class="s2">.</span><span class="s1">getSelectedItem</span><span class="s2">().</span><span class="s1">toString</span><span class="s2">();</span>
+        <span class="s0">boolean </span><span class="s1">filtrarCinema </span><span class="s2">= </span><span class="s1">cbFiltroCinema</span><span class="s2">.</span><span class="s1">isChecked</span><span class="s2">();</span>
+
+        <span class="s1">ArrayList</span><span class="s2">&lt;</span><span class="s1">Filme</span><span class="s2">&gt; </span><span class="s1">filtrada </span><span class="s2">= </span><span class="s0">new </span><span class="s1">ArrayList</span><span class="s2">&lt;&gt;();</span>
+
+        <span class="s0">for </span><span class="s2">(</span><span class="s1">Filme f </span><span class="s2">: </span><span class="s1">listaFilmes</span><span class="s2">) {</span>
+            <span class="s0">boolean </span><span class="s1">matchGenero </span><span class="s2">= </span><span class="s1">generoSelecionado</span><span class="s2">.</span><span class="s1">equals</span><span class="s2">(</span><span class="s5">&quot;Todos&quot;</span><span class="s2">) || </span><span class="s1">f</span><span class="s2">.</span><span class="s1">getGenero</span><span class="s2">().</span><span class="s1">equals</span><span class="s2">(</span><span class="s1">generoSelecionado</span><span class="s2">);</span>
+            <span class="s0">boolean </span><span class="s1">matchCinema </span><span class="s2">= !</span><span class="s1">filtrarCinema </span><span class="s2">|| </span><span class="s1">f</span><span class="s2">.</span><span class="s1">isViuNoCinema</span><span class="s2">();</span>
+
+            <span class="s0">if </span><span class="s2">(</span><span class="s1">matchGenero </span><span class="s2">&amp;&amp; </span><span class="s1">matchCinema</span><span class="s2">) {</span>
+                <span class="s1">filtrada</span><span class="s2">.</span><span class="s1">add</span><span class="s2">(</span><span class="s1">f</span><span class="s2">);</span>
+            <span class="s2">}</span>
+        <span class="s2">}</span>
+
+        <span class="s1">adapter</span><span class="s2">.</span><span class="s1">atualizarLista</span><span class="s2">(</span><span class="s1">filtrada</span><span class="s2">);</span>
+    <span class="s2">}</span>
+<span class="s2">}</span>
+</pre>
+</body>
+</html>
